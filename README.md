@@ -1,55 +1,6 @@
-🤖 AI Interview Coach
-An automated, self-hosted mock interview partner.
-This project provides a complete, interactive, and intelligent interview coach that helps users prepare for specific job roles. The system is designed as an agentic workflow, leveraging a locally hosted Large Language Model (LLM) to generate tailored questions and provide structured, multi-faceted feedback on a user's answers.
-✨ Features
-Role-Specific Questions
-Get realistic technical interview questions based on a chosen job role (e.g., Cloud Security, DevOps).
-Structured Feedback
-Receive an in-depth evaluation of your answer, including a score and analysis of clarity, correctness, and conciseness.
-Interactive Conversation
-Continuous mock interview experience: follow-up questions and new challenges adapt to your responses.
-Decoupled Architecture
-AI logic (Flask app) is separated from automation & orchestration (n8n workflow), ensuring flexibility and scalability.
-📦 Tech Stack
-n8n: Core automation & orchestration engine, connecting user input, AI model, and response loop.
-Python & Flask: Local web server providing API endpoints for the AI model.
-Hugging Face: Source for locally hosted LLMs (Bloom-560m or GPT-2).
-Locally Hosted LLM: The AI "brain" for generating questions and feedback.
-ngrok: Creates a secure tunnel for n8n to communicate with your local AI model via webhook.
-🔹 Architecture Overview
-The system works as a real-time interaction loop:
-User Initiation
-A mock interview starts when the user sends a webhook request to n8n with their job role:
-{
-  "action": "generate",
-  "jobRole": "cloud security"
+AI Interview Coach🎓
+An automated, self-hosted mock interview partner.This project provides a complete, interactive, and intelligent interview coach that helps users prepare for specific job roles. The system is designed as an agentic workflow, leveraging a locally-hosted Large Language Model (LLM) to generate tailored questions and provide structured, multi-faceted feedback on a user's answers.✨ Key FeaturesRole-Specific Questions: Get realistic technical interview questions based on a job role you choose, such as Cloud Security or DevOps.Structured Feedback: Receive an in-depth evaluation of your answer, including a score and analysis of its clarity, correctness, and conciseness.Interactive Conversation: The system works as a continuous mock interview, asking follow-up questions and providing new challenges with each answer.Decoupled Architecture: The project separates the AI logic (the Flask app) from the automation and orchestration (the n8n workflow), making it highly flexible and scalable.⚙️ Technologies Usedn8n: The core automation and orchestration engine. It acts as the "glue" that connects the user's input, the AI model, and the response loop.Python & Flask: Used to create a simple, local web server that exposes an API endpoint for the AI model.Hugging Face: The platform from which the LLM (either Bloom-560m or GPT-2) was downloaded to be hosted locally.Locally Hosted LLM: The AI "brain" of the project, running on your own machine to process prompts for question generation and feedback.ngrok: Creates a secure tunnel from your local Flask server to the internet, allowing the n8n agent to communicate with your local AI model via a public webhook URL.🔹 How It Works (Architecture)The project's architecture is a streamlined loop designed for real-time interaction.User Initiation: A user starts a mock interview by sending a webhook (an API call) to n8n with their desired jobRole.{
+    "action": "generate",
+    "jobRole": "cloud security"
 }
-n8n Orchestration
-Webhook triggers the n8n workflow.
-An HTTP Request Node forwards prompts to /generate on the local Flask server.
-Logic Nodes decide whether to generate a new question or evaluate an answer.
-Local LLM Processing
-Flask app receives requests at /generate.
-LLM (e.g., Bloom-560m) generates either:
-A new interview question, or
-Structured feedback on the user’s last response.
-Response & Continuation
-Flask app sends results back to n8n.
-Respond to Webhook Node returns the question/feedback to the user.
-User answers → triggers new webhook → loop continues.
-🚀 Getting Started
-Clone the Repository
-git clone https://github.com/yourusername/ai-interview-coach.git
-cd ai-interview-coach
-Set Up Python Environment
-pip install -r requirements.txt
-Host the LLM
-Download Bloom-560m or GPT-2 from Hugging Face.
-Configure it in your Flask app.
-Run Flask Server
-python app.py
-Expose with ngrok
-ngrok http 5000
-Configure n8n
-Import the provided workflow.
-Update the HTTP Request node to point to your ngrok URL.
+n8n Orchestration: The n8n workflow, triggered by the incoming webhook, processes the user's input.An HTTP Request Node forwards the prompt (a request to generate a question) to your local Flask server's /generate endpoint.Logic Nodes (like an IF node) check the user's input to determine if the next step is to generate a new question or evaluate an existing answer.Local LLM Processing: Your Python/Flask application receives the request.The /generate endpoint uses the locally-hosted LLM (e.g., Bloom-560m) to either create a new interview question or analyze the user's most recent answer.The LLM generates a response based on the logic you've designed (e.g., a new question in a specific format or structured feedback on an answer).Response and Continuation: The Flask app sends the LLM's response back to n8n.The Respond to Webhook node returns the generated question or feedback to the user, completing the cycle.The user provides their answer, which starts a new webhook call to evaluate their response, continuing the interactive loop.🚀 Getting StartedTo run this project, you will need to:Clone this repository.Set up the Python environment: Install Flask and the necessary dependencies to run your chosen Hugging Face model (e.g., transformers).Host the LLM: Download and configure your selected LLM (Bloom-560m or GPT-2) to be served by your Flask application.Launch ngrok: Use ngrok to expose your Flask server's local port to the public internet.Configure n8n: Import the n8n workflow and update the HTTP Request node to point to your new ngrok URL.🤝 ContributingContributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.Fork the ProjectCreate your Feature Branch (git checkout -b feature/AmazingFeature)Commit your Changes (git commit -m 'Add some AmazingFeature')Push to the Branch (git push origin feature/AmazingFeature)Open a Pull Request
