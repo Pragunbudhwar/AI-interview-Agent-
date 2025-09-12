@@ -1,19 +1,23 @@
 # 🎓 AI Interview Coach🤖 
-## An automated, self-hosted mock interview partner.This project provides a complete, interactive, and intelligent interview coach that helps users prepare for specific job roles. The system is designed as an agentic workflow, leveraging a locally-hosted Large Language Model (LLM) to generate tailored questions and provide structured, multi-faceted feedback on a user's answers.
+
+An automated, self-hosted mock interview partner.This project provides a complete, interactive, and intelligent interview coach that helps users prepare for specific job roles. The system is designed as an agentic workflow, leveraging a locally-hosted Large Language Model (LLM) to generate tailored questions and provide structured, multi-faceted feedback on a user's answers.
 
 ---
 
 
-## 🚀 What It Does  
+## 🚀 What It Does 
+
 # 🔍 Asks interview questions tailored to a chosen job role (e.g., cloud security, DevOps, etc.)🧠 Accepts the user’s answer (in text form)
+
 # 🧬 Evaluates the answer with structured, AI-generated feedback (clarity, correctness, conciseness, and a score)
+
 # 📄 Provides continuous practice through an interactive loop — like a personal mock interview partner.It doesn’t just say "good job."It tells you what to improve, what you did well, and then guides you to the next question to continue the practice.
 
 ---
 
 # 🧠 Key Components
 
-## 💡 The LLM Brain
+# 💡 The LLM Brain
 + Generates tailored interview questions.
 + Creates structured, detailed feedback on a user's answer.
 + Operates locally on your machine for full control.
