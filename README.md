@@ -5,19 +5,19 @@ An automated, self-hosted mock interview partner.This project provides a complet
 ---
 
 
-## 🚀 What It Does 
+# 🚀 What It Does 
 
-# 🔍 Asks interview questions tailored to a chosen job role (e.g., cloud security, DevOps, etc.)🧠 Accepts the user’s answer (in text form)
+## 🔍 Asks interview questions tailored to a chosen job role (e.g., cloud security, DevOps, etc.)🧠 Accepts the user’s answer (in text form)
 
-# 🧬 Evaluates the answer with structured, AI-generated feedback (clarity, correctness, conciseness, and a score)
+## 🧬 Evaluates the answer with structured, AI-generated feedback (clarity, correctness, conciseness, and a score)
 
-# 📄 Provides continuous practice through an interactive loop — like a personal mock interview partner.It doesn’t just say "good job."It tells you what to improve, what you did well, and then guides you to the next question to continue the practice.
+## 📄 Provides continuous practice through an interactive loop — like a personal mock interview partner.It doesn’t just say "good job."It tells you what to improve, what you did well, and then guides you to the next question to continue the practice.
 
 ---
 
 # 🧠 Key Components
 
-# 💡 The LLM Brain
+### 💡 The LLM Brain
 + Generates tailored interview questions.
 + Creates structured, detailed feedback on a user's answer.
 + Operates locally on your machine for full control.
