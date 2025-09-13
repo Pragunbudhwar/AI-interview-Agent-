@@ -1,0 +1,109 @@
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from flask import Flask, request, jsonify
+import torch
+import re
+
+# Use a more capable, instruction-tuned model
+model_name = "mistralai/Mistral-7B-Instruct-v0.1"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+
+# Set pad token if not defined
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token
+
+model = AutoModelForCausalLM.from_pretrained(
+    model_name,
+    torch_dtype=torch.float16,  # Use float16 to reduce memory usage
+    device_map="auto"  # Automatically handle device placement
+)
+
+# Use GPU if available
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+if device.type == "cuda":
+    model = model.to(device)
+
+app = Flask(__name__)
+
+def extract_clean_question(text: str, prompt: str) -> str:
+    """
+    Cleans up the model's raw output to extract a single, relevant question.
+    """
+    # 1) remove instruction tokens like [INST] [/INST]
+    text = re.sub(r"\[/?INST\]", "", text).strip()
+
+    # 2) remove direct prompt echo
+    try:
+        text = re.sub(re.escape(prompt), "", text, flags=re.IGNORECASE).strip()
+    except Exception:
+        text = text.strip()
+
+    # 3) normalize whitespace
+    text = re.sub(r"\s+\n", "\n", text)
+    text = re.sub(r"\n+", "\n", text).strip()
+
+    # 4) find first line with a question mark
+    for line in text.splitlines():
+        if "?" in line:
+            candidate = line.strip()
+            candidate = re.sub(r'^(Question[:\s-]*)', '', candidate, flags=re.I).strip()
+            return candidate
+
+    # 5) fallback: first sentence
+    m = re.search(r"(.+?[\.!?])", text)
+    if m:
+        return re.sub(r'^(Question[:\s-]*)', '', m.group(1), flags=re.I).strip()
+
+    # 6) fallback: first non-empty line or default
+    if text:
+        return text.splitlines()[0].strip()[:200]
+
+    return "Explain the difference between symmetric and asymmetric encryption."
+
+@app.route("/generate", methods=["POST"])
+def generate():
+    try:
+        data = request.json or {}
+        prompt = data.get("prompt", "")
+        
+        if not isinstance(prompt, str) or not prompt.strip():
+            return jsonify({"error": "Prompt is empty"}), 400
+        
+        # Format the prompt specifically for the Mistral Instruct model
+        formatted_prompt = f"<s>[INST] {prompt} [/INST]"
+        
+        # Tokenize and send to device
+        inputs = tokenizer(formatted_prompt, return_tensors="pt", padding=True, truncation=True)
+        inputs = {k: v.to(device) for k, v in inputs.items()}
+        
+        with torch.no_grad():
+            outputs = model.generate(
+                **inputs,
+                max_new_tokens=100,
+                do_sample=True,
+                top_p=0.9,
+                temperature=0.6,
+                repetition_penalty=1.2,
+                eos_token_id=tokenizer.eos_token_id,
+                pad_token_id=tokenizer.pad_token_id
+            )
+        
+        raw = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        
+        # Clean up the output
+        question = extract_clean_question(raw, prompt)
+        
+        if len(question) < 3:
+            question = "Explain the key difference between symmetric and asymmetric encryption."
+        
+        return jsonify({"generated_text": question})
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/health", methods=["GET"])
+def health():
+    """Health check endpoint"""
+    return jsonify({"status": "healthy"}), 200
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=6000, debug=False)
