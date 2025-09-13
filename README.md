@@ -36,6 +36,19 @@ The system combines a **locally-hosted LLM** with **workflow automation** for a 
 
 ---
 
-## ⚙️ Architecture Overview  
+## ⚙️ Architecture Overview 
+User (candidate)
+│
+├──> Webhook → n8n Workflow
+│ │
+│ ├──> HTTP Request → Local Flask API (/generate)
+│ │ │
+│ │ └──> Locally-hosted LLM (Bloom / Mistral)
+│ │ - Generates interview question OR
+│ │ - Evaluates user answer
+│ │
+│ └──> Respond to Webhook → Returns AI output to user
+│
+└──> User sends next answer → cycle contin
 
 
