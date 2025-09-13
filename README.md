@@ -49,6 +49,6 @@ User (candidate)
 │ │
 │ └──> Respond to Webhook → Returns AI output to user
 │
-└──> User sends next answer → cycle contin
+└──> User sends next answer → cycle continues 
 
 
