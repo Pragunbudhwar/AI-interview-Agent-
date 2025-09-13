@@ -1,42 +1,69 @@
-# 🎓 AI Interview Coach🤖 
-
-An automated, self-hosted mock interview partner.This project provides a complete, interactive, and intelligent interview coach that helps users prepare for specific job roles. The system is designed as an agentic workflow, leveraging a locally-hosted Large Language Model (LLM) to generate tailored questions and provide structured, multi-faceted feedback on a user's answers.
-
----
-
-
-## 🚀 What It Does 
-
-### 🔍 Asks interview questions tailored to a chosen job role (e.g., cloud security, DevOps, etc.)🧠 Accepts the user’s answer (in text form)
-
-### 🧬 Evaluates the answer with structured, AI-generated feedback (clarity, correctness, conciseness, and a score)
-
-### 📄 Provides continuous practice through an interactive loop — like a personal mock interview partner.It doesn’t just say "good job."It tells you what to improve, what you did well, and then guides you to the next question to continue the practice.
-
----
-
-## 🧠 Key Components
-
-### 💡 The LLM Brain
-####+ Generates tailored interview questions.
-####+ Creates structured, detailed feedback on a user's answer.
-####+ Operates locally on your machine for full control.
-  
-## 🧩 The n8n Orchestrator
-+ Captures user input via a webhook (API call).
-+ Decides whether to generate a question or evaluate an answer.
-+ Forwards prompts and answers to the local LLM.
-+ Returns results back to the user to maintain the flow.
-
-  
-## ⚙️ Tech Stackn8n (Automation & Orchestration)Python / Flask (Local API server)Hugging Face (For downloading the LLM)Locally Hosted LLM (e.g., Bloom-560m, GPT-2)ngrok (Creates a secure public tunnel)📦 How It WorksA user starts a mock interview by sending a webhook to n8n with their desired jobRole.An n8n workflow is triggered and forwards the prompt to your local Flask server's /generate endpoint.Your Python/Flask application receives the request and uses the locally-hosted LLM to either create a new question or evaluate an answer.The LLM generates a response based on the logic you've designed.The Flask app sends the LLM's response back to n8n, which returns it to the user via a webhook response.The user provides their answer, which starts a new webhook call to evaluate their response, continuing the interactive loop.💡 Why This Matters✅ Built for continuous, personalized practice✅ No VMs, no monthly subscription fees for the LLM✅ Fast, scalable, cost-efficient for personal use✅ Ideal for personal development, CI/CD pipelines, or as a secure backend API📁 Output Example{
- "question_id": "q123",
- "job_role": "DevOps",
- "interview_question": "Explain the concept of Immutable Infrastructure and its benefits in a DevOps environment.",
- "feedback": {
-  "score": 85,
-  "clarity": "The answer was clear and well-structured, but could be improved with a more concise opening statement.",
-  "correctness": "Correctly identified key benefits like consistency and rollback, but missed mentioning the 'golden image' concept.",
-  "conciseness": "The answer was a bit long. Try to provide a summary of the key points before diving into the details."
- }
-}
+🤖 AI Interview Coach
+A self-hosted, intelligent mock interview partner.
+This project is an interactive AI interview coach designed to simulate realistic technical interviews. It generates role-specific questions, evaluates user responses, and provides structured feedback — helping candidates prepare for interviews with a hands-on, conversational approach.
+The system combines a locally-hosted LLM with workflow automation for a scalable and flexible architecture.
+✨ Key Features
+🎯 Role-Specific Questions
+Generate realistic interview questions tailored to roles like Cloud Security, DevOps, or Software Engineering.
+📝 Structured Feedback
+Get detailed analysis of your answers, covering clarity, correctness, and conciseness, along with scoring.
+🔄 Interactive Mock Interview
+Works like a real interview loop — new questions and follow-ups are asked dynamically.
+🧩 Decoupled Architecture
+The AI logic (Flask + LLM) and workflow orchestration (n8n) are independent, making it modular and scalable.
+🛠️ Technologies Used
+Python 3.9+ – Core programming language
+Flask – Lightweight web server exposing REST API endpoints
+Hugging Face Transformers – To load and run locally-hosted LLMs
+Models tested: bigscience/bloom-560m and mistralai/Mistral-7B-Instruct-v0.1
+PyTorch – Deep learning backend for model inference
+n8n – Workflow automation and orchestration engine
+ngrok – Secure tunneling to expose local Flask server to n8n Cloud
+Shell & cURL – For local testing and debugging of webhooks
+⚙️ Architecture Overview
+User (candidate)  
+   │  
+   ├──> Webhook → n8n Workflow  
+   │        │  
+   │        ├──> HTTP Request → Local Flask API (/generate)  
+   │        │        │  
+   │        │        └──> Locally-hosted LLM (Bloom / Mistral)  
+   │        │               - Generates interview question OR  
+   │        │               - Evaluates user answer  
+   │        │  
+   │        └──> Respond to Webhook → Returns AI output to user  
+   │  
+   └──> User sends next answer → cycle continues  
+🚀 Getting Started
+Clone the Repository
+git clone https://github.com/your-username/ai-interview-coach.git
+cd ai-interview-coach
+Set Up Python Environment
+pip install flask torch transformers
+Run Local Flask API
+python local_llm_api.py
+Flask will run at: http://127.0.0.1:6000
+Expose API with ngrok
+ngrok http 6000
+Example URL: https://xxxxxx.ngrok-free.app/generate
+Configure n8n Workflow
+Add a Webhook Node (listens to /interview)
+Add an HTTP Request Node (POST → your ngrok /generate URL)
+Add a Respond to Webhook Node (returns LLM output)
+Save & activate the workflow
+Test via cURL
+curl -X POST https://your-n8n-instance/webhook/interview \
+-H "Content-Type: application/json" \
+-d '{"action":"generate","jobRole":"cloud security"}'
+🤝 Contributing
+Contributions are welcome!
+Fork the project
+Create your feature branch (git checkout -b feature/NewFeature)
+Commit your changes (git commit -m 'Add some NewFeature')
+Push to the branch (git push origin feature/NewFeature)
+Open a Pull Request
+📌 Why This Project Stands Out
+Demonstrates end-to-end AI integration (LLM + automation + orchestration).
+Highlights practical use of NLP in real-world interview preparation.
+Built with scalability in mind — easily switch LLMs or plug into different workflows.
+Great example of combining MLOps, workflow automation, and applied AI into a single portfolio project.
