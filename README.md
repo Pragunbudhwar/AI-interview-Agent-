@@ -59,7 +59,7 @@ User (candidate)
 
 ---
 
-## 🧩 Complete N8N Architecture(DESIGNED FROM SCRATCH)
+## 🧩 Complete N8N Architecture 
 
 ![Project Architechture](https://github.com/Pragunbudhwar/AI-interview-Agent-/blob/81893fd61b56824c406085d58dbfd28d2cb45829/The%20final%20n8n%20interview%20.png)
 
