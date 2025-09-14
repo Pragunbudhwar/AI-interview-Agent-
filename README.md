@@ -51,11 +51,10 @@ User (candidate)
 │
 └──> User sends next answer → cycle continues 
 
+--
 
 
-
-
-![Project Logo](images/logo.png)
+![Project Architechture](The AI Agent Interview .png)
 
 
 
