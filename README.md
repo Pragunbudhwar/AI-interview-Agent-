@@ -54,7 +54,8 @@ User (candidate)
 --
 
 
-![Project Architechture](The AI Agent Interview .png)
+![Project Architechture](AI-interview-Agent-
+/The AI Agent Interview .png)
 
 
 
