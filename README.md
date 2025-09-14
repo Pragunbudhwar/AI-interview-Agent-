@@ -54,7 +54,7 @@ User (candidate)
 --
 
 
-![Project Architechture](The AI Agent Interview .png)
+![Project Architechture](https://github.com/Pragunbudhwar/AI-interview-Agent-/blob/2231d052856156551b92405bc052980039eeb29f/The%20AI%20Agent%20Interview%20.png)
 
 
 
