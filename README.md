@@ -51,10 +51,19 @@ User (candidate)
 │
 └──> User sends next answer → cycle continues 
 
---
+---
+## ⚙️ Complete Project Architecture 
 
 
 ![Project Architechture](https://github.com/Pragunbudhwar/AI-interview-Agent-/blob/2231d052856156551b92405bc052980039eeb29f/The%20AI%20Agent%20Interview%20.png)
+
+---
+
+## 🧩 Complete N8N Architecture(DESIGNED FROM SCRATCH)
+
+![Project Architechture](https://github.com/Pragunbudhwar/AI-interview-Agent-/blob/2231d052856156551b92405bc052980039eeb29f/The%20AI%20Agent%20Interview%20.png)
+
+
 
 
 
